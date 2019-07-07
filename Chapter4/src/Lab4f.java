@@ -2,10 +2,12 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JButton;
 
-public class Lab4d {
+public class Lab4f {
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setSize(800, 600);
@@ -17,8 +19,15 @@ public class Lab4d {
         btn.setLocation(250, 100);
         btn.setSize(200, 50);
 
+        JLabel lb = new JLabel("Welcome to the world!");
+        lb.setLocation(100, 100);
+        lb.setSize(200, 50);
+
         frame.setLayout(null);
         frame.add(btn);
+        frame.add(lb);
+
+        frame.getContentPane().setBackground(Color.PINK);
 
         frame.setVisible(true);
     }
