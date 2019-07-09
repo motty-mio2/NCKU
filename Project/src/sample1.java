@@ -40,9 +40,6 @@ public class sample1 {
         timer.setHorizontalAlignment(JTextField.RIGHT);
         frame.add(timer);
 
-        int score = 0;
-        int oldscore = 0;
-
         JTextField scoreboard = new JTextField(50);
         scoreboard.setLocation(windowW * 2 / 3, windowW);
         scoreboard.setSize(windowW * 1 / 3, windowH - windowW);
@@ -65,13 +62,16 @@ public class sample1 {
         long flgT = System.currentTimeMillis();
         int targS, targX, targY;
 
+        String score = scoreboard.getText();
+        String oldscore = scoreboard.getText();
+
         while (nowT - staT < 30000) {
             nowT = System.currentTimeMillis();
             timer.setText("Last " + (30 - (nowT - staT) / 1000) + "s");
 
-            // scoreboard.setText("You got " + score + " points");
+            score = scoreboard.getText();
 
-            if (System.currentTimeMillis() - flgT > 1000 || oldscore != score) {
+            if (System.currentTimeMillis() - flgT > 1000 || !oldscore.equals(score)) {
                 oldscore = score;
                 do {
                     targS = rand.nextInt(50) * 3;
@@ -96,6 +96,7 @@ public class sample1 {
 
 public class MyButtonListener implements ActionListener {
     private JTextField score;
+    private int point = 0;
 
     public MyButtonListener(JTextField score) {
         this.score = score;
@@ -104,19 +105,8 @@ public class MyButtonListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         // score += Integer.parseInt(command);
-        String nowscore = score.getText();
-        String newscore;
 
-        ScriptEngineManager manager = new ScriptEngineManager();
-        ScriptEngine engine = manager.getEngineByName("JavaScript");
-        try {
-            String tmp = nowscore + "+" + command;
-            newscore = (engine.eval(tmp)).toString();
-        } catch (ScriptException ex) {
-            // ex.printStackTrace();
-            newscore = "error";
-        }
-
-        score.setText(newscore);
+        point += Integer.parseInt(command);
+        score.setText(String.valueOf(point));
     }
 }
