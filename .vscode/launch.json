@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - sample1",
+            "request": "launch",
+            "mainClass": "Lab4_2.sample1"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Lab4_2",
+            "request": "launch",
+            "mainClass": "Lab4_2.Lab4_2",
+            "projectName": "Chapter4"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - MyFrame",
+            "request": "launch",
+            "mainClass": "Lab4b.MyFrame",
+            "projectName": "Chapter4"
+        }
+    ]
+}
