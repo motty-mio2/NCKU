@@ -2,6 +2,7 @@ package Lab4_2;
 
 import java.awt.event.*;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.io.*;
@@ -16,7 +17,11 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.*;
 
-public class sample1 {
+public class sample1 /* implements /*ActionListener */ {
+
+    public static int gamemode = 0;
+    public static int score;
+
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setTitle("Simple Game1");
@@ -36,77 +41,105 @@ public class sample1 {
         JTextField timer = new JTextField(50);
         timer.setLocation(0, windowW);
         timer.setSize(windowW * 2 / 3, windowH - windowW);
-        timer.setText("Here Come a new Challenger!!");
+        // timer.setFont(,default,defau24);
+
+        timer.setText("Let's Challenge !!");
         timer.setHorizontalAlignment(JTextField.RIGHT);
         frame.add(timer);
 
         JTextField scoreboard = new JTextField(50);
         scoreboard.setLocation(windowW * 2 / 3, windowW);
         scoreboard.setSize(windowW * 1 / 3, windowH - windowW);
-        scoreboard.setText("0");
+        scoreboard.setText(String.valueOf(score));
         scoreboard.setHorizontalAlignment(JTextField.RIGHT);
         frame.add(scoreboard);
 
-        ActionListener listen = new MyButtonListener(scoreboard);
+        ActionListener listen = new MyButtonListener1(scoreboard);
 
         JButton btn1 = new JButton();
-        btn1.setText("3");
         btn1.addActionListener(listen);
         frame.add(btn1);
+
+        JButton btnstt = new JButton();
+        btnstt.addActionListener(new Modechanger());
+        btnstt.setHorizontalAlignment(JButton.CENTER);
+        int sttw = 100;
+        int stth = 62;
+        btnstt.setSize(sttw, stth);
+        btnstt.setText("Start !");
+        frame.add(btnstt);
 
         frame.setLayout(null);
         frame.setVisible(true);
 
-        long staT = System.currentTimeMillis();
-        long nowT = System.currentTimeMillis();
-        long flgT = System.currentTimeMillis();
+        timer.setFont(new Font("Arial", Font.PLAIN, 30));
+        scoreboard.setFont(new Font("Arial", Font.PLAIN, 30));
+
         int targS, targX, targY;
+        long staT;
+        long nowT;
+        long flgT;
+        int oldscore;
 
-        String score = scoreboard.getText();
-        String oldscore = scoreboard.getText();
-
-        while (nowT - staT < 30000) {
-            nowT = System.currentTimeMillis();
-            timer.setText("Last " + (30 - (nowT - staT) / 1000) + "s");
-
-            score = scoreboard.getText();
-
-            if (System.currentTimeMillis() - flgT > 1000 || !oldscore.equals(score)) {
+        while (true) {
+            if (gamemode == 1) {
+                score = 0;
                 oldscore = score;
-                do {
-                    targS = rand.nextInt(50) * 3;
-                } while (targS < 20);
-                targX = rand.nextInt(windowW - targS);
-                targY = rand.nextInt(windowW - targS);
-                btn1.setLocation(targX, targY);
-                btn1.setSize(targS, targS);
+                scoreboard.setText(String.valueOf(score));
+                staT = System.currentTimeMillis();
+                nowT = System.currentTimeMillis();
                 flgT = System.currentTimeMillis();
+                btnstt.setLocation(windowH, windowH);
+                btn1.setLocation(windowH, windowH);
+                while (nowT - staT < 30000) {
+                    gamemode = 1;
+                    nowT = System.currentTimeMillis();
+                    timer.setText("Last " + (30 - (nowT - staT) / 1000) + "s");
+
+                    if (System.currentTimeMillis() - flgT > 1000 || oldscore != score) {
+                        oldscore = score;
+                        do {
+                            targS = rand.nextInt(150);
+                        } while (targS < 30);
+                        targX = rand.nextInt(windowW - targS);
+                        targY = rand.nextInt(windowW - targS);
+                        int setscore;
+                        do {
+                            setscore = rand.nextInt(9);
+                        } while (setscore == 0);
+                        btn1.setText(String.valueOf(setscore));
+                        btn1.setLocation(targX, targY);
+                        btn1.setSize(targS, targS);
+                        flgT = System.currentTimeMillis();
+                    }
+                }
+                gamemode = 0;
+            } else {
+                btnstt.setLocation((windowW - sttw) / 2, (windowW - stth) / 2);
+                btn1.setLocation(windowH, windowH);
             }
-
-            //
-            /*
-             * JButton btnClr = new JButton(); btnClr.setLocation(rows[1] + spacer * 1,
-             * clms[6]); btnClr.setSize(btnW * 2 - spacer * 3, btnH);
-             * btnClr.setText("Clear"); btnClr.addActionListener(listen); frame.add(btnClr);
-             */
-
         }
     }
 }
 
-public class MyButtonListener implements ActionListener {
-    private JTextField score;
-    private int point = 0;
+public class MyButtonListener1 implements ActionListener {
+    private JTextField scoreboard;
 
-    public MyButtonListener(JTextField score) {
-        this.score = score;
+    public MyButtonListener1(JTextField scoreget) {
+        this.scoreboard = scoreget;
     }
 
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         // score += Integer.parseInt(command);
 
-        point += Integer.parseInt(command);
-        score.setText(String.valueOf(point));
+        sample1.score += Integer.parseInt(command);
+        scoreboard.setText(String.valueOf(sample1.score));
+    }
+}
+
+public class Modechanger implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+        sample1.gamemode = 1;
     }
 }
