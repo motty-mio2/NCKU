@@ -215,6 +215,8 @@ public class sample1 /* implements /*ActionListener */ {
                     }
                 }
                 gamemode = 0;
+                btn1.setLocation(windowH, windowH);
+                btn2.setLocation(windowH, windowH);
                 while (System.currentTimeMillis() - staT < 33000) {
                     finishBoard.setLocation(0, 0);
                 }
